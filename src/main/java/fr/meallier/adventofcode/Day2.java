@@ -1,9 +1,6 @@
 package fr.meallier.adventofcode;
 
-import java.io.IOException;
 import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.StringTokenizer;
 
 public class Day2 {
@@ -35,12 +32,12 @@ public class Day2 {
         return day2;
     }
 
-    public static Day2 buildFromFile(URI filepath) throws IOException {
-        return buildFromLines(Files.lines(Paths.get(filepath)).toArray(String[]::new));
+    public static Day2 buildFromFile(URI filepath) throws Exception {
+        return buildFromLines(Utils.readFile(filepath));
     }
 
-    public static Day2 buildFromFile(String filepath) throws IOException {
-        return buildFromLines(Files.lines(Paths.get(filepath)).toArray(String[]::new));
+    public static Day2 buildFromFile(String filepath) throws Exception {
+        return buildFromLines(Utils.readFile(filepath));
     }
 
     // Business /////////////////////////////////////

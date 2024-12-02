@@ -3,6 +3,8 @@ package fr.meallier.adventofcode;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Objects;
+
 class Day2ApplicationTests {
 
     @Test
@@ -29,17 +31,8 @@ class Day2ApplicationTests {
     @Test
     void testDay2SafenessCountFile() {
         try {
-            Day2 day2 = Day2.buildFromFile(Day2ApplicationTests.class.getResource("/day2.txt").toURI());
+            Day2 day2 = Day2.buildFromFile(Objects.requireNonNull(Day2ApplicationTests.class.getResource("/day2.txt")).toURI());
             Assertions.assertEquals(2, day2.countSafeness());
-        } catch (Exception e) {
-            Assertions.fail();
-        }
-    }
-
-    @Test
-    void testDay2SafenessCountFileV2() {
-        try {
-            Day2 day2 = Day2.buildFromFile(Day2ApplicationTests.class.getResource("/day2.txt").toURI());
             Assertions.assertEquals(4, day2.countSafenessV2());
         } catch (Exception e) {
             Assertions.fail();
@@ -51,15 +44,6 @@ class Day2ApplicationTests {
         try {
             Day2 day2 = Day2.buildFromFile("/home/eric/day2.txt");
             Assertions.assertEquals(371, day2.countSafeness());
-        } catch (Exception e) {
-            Assertions.fail();
-        }
-    }
-
-    @Test
-    void testDay2_fileV2() {
-        try {
-            Day2 day2 = Day2.buildFromFile("/home/eric/day2.txt");
             Assertions.assertEquals(426, day2.countSafenessV2());
         } catch (Exception e) {
             Assertions.fail();
