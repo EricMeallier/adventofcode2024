@@ -59,7 +59,6 @@ public class Day11 {
                 }
             }
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Size: " + size + ": " + e.getMessage());
             throw e;
         }
     }
@@ -73,7 +72,7 @@ public class Day11 {
 }
 
 class HugeList {
-    private final static int SPAN = 100_000;
+    private final static long SPAN = 100_000;
     public final List<List<Long>> storage;
     private long currentSize;
 
@@ -87,8 +86,10 @@ class HugeList {
     }
 
     public void set(long index, long value) {
-        int spanNumber = (int)index / SPAN;
-        int subIndex = (int)index % SPAN;
+        long spanNumberLong = index / SPAN;
+        long subIndexLong = index % SPAN;
+        int spanNumber = (int)spanNumberLong;
+        int subIndex = (int)subIndexLong;
 
         try {
             if (storage.size() <= spanNumber) {
@@ -100,20 +101,21 @@ class HugeList {
             else
                 storage.get(spanNumber).set(subIndex,value);
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Set: " + index + ", " + value + ": " + e.getMessage());
-            System.out.println("span: " + spanNumber + ", subIndex: " + subIndex);
+            System.out.println("Set (" + index + ", " + value + ") => [" + spanNumber + ',' + subIndex + "] with size: " + currentSize);
             throw e;
         }
     }
 
     public long get(long index) {
-        int spanNumber = (int)index / SPAN;
-        int subIndex = (int)index % SPAN;
+        long spanNumberLong = index / SPAN;
+        long subIndexLong = index % SPAN;
+        int spanNumber = (int)spanNumberLong;
+        int subIndex = (int)subIndexLong;
 
         try {
             return storage.get(spanNumber).get(subIndex);
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Set: " + index + ": " + e.getMessage());
+            System.out.println("Set (" + index + ") => [" + spanNumber + ',' + subIndex + "] with size: " + currentSize);
             throw e;
         }
     }
