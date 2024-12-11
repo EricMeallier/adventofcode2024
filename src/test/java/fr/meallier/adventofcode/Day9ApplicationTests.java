@@ -20,7 +20,7 @@ class Day9ApplicationTests {
             day = Day9.buildFromFile("/home/eric/day9.txt");
             day.expandModele();
             day.compactModele();
-            Assertions.assertEquals(2858L,day.checkSum());
+            Assertions.assertEquals(6265268809555L,day.checkSum());
         } catch (Exception e) {
             Assertions.fail(e.getMessage());
         }

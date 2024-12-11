@@ -7,6 +7,10 @@ import java.util.List;
 public class Day9 {
     private int[] ele;
     public List<Integer> expandedModele;
+    private int reduceTarget;
+    private int reduceTargetIndex;
+    private int reduceTargetLength;
+    private int reduceHoleIndex;
 
     private Day9() {}
 
@@ -83,15 +87,88 @@ public class Day9 {
     }
 
     public void compactModele() {
+        int groupIndex = expandedModele.size()-1;
 
+        while (groupIndex>0) {
+            findLastGroup(groupIndex);
+            if (reduceTargetLength > 0) {
+                //System.out.println("Found ele{" + reduceTarget + "} with length " + reduceTargetLength + " beginning at " + reduceTargetIndex);
+
+                if (findFirstHole(reduceTargetLength) && reduceTargetIndex>reduceHoleIndex) {
+                    //System.out.println("find a hole for the group => Move block");
+                    for (int i = 0; i < reduceTargetLength; i++) {
+                        expandedModele.set(reduceHoleIndex + i, reduceTarget);
+                        expandedModele.set(reduceTargetIndex - i, Integer.MAX_VALUE);
+                    }
+                //} else {
+                    //System.out.println("No hole found !");
+                }
+                groupIndex=reduceTargetIndex-reduceTargetLength;
+                //printExpanded();
+            } else {
+                groupIndex--;
+            }
+        }
+    }
+
+    public void findLastGroup(int from) {
+        int index=from;
+
+        // looking for last digit
+        while (expandedModele.get(index)==Integer.MAX_VALUE && index>1)
+            index--;
+
+        // find length of the block
+        reduceTarget=expandedModele.get(index);
+        reduceTargetIndex=index;
+        while (expandedModele.get(index)==reduceTarget && index>1)
+            index--;
+
+        // Compute length of block
+        reduceTargetLength=reduceTargetIndex-index;
+    }
+
+    public boolean findFirstHole(int length) {
+        int index = 0;
+        int beginIndex;
+
+        while (index<expandedModele.size()-1) {
+            // find first hole
+            while (expandedModele.get(index) != Integer.MAX_VALUE && index < expandedModele.size()-1)
+                index++;
+
+            // find hole length
+            beginIndex = index;
+            while (expandedModele.get(index) == Integer.MAX_VALUE && index < expandedModele.size()-1)
+                index++;
+
+            // length enough ?
+            if (index - beginIndex >= length) {
+                reduceHoleIndex = beginIndex;
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public long checkSum() {
         long cumul = 0;
 
-        for (int i = 0; i < expandedModele.size() && expandedModele.get(i) != Integer.MAX_VALUE; i++) {
-            cumul += (long) i * expandedModele.get(i);
+        for (int i = 0; i < expandedModele.size(); i++) {
+            if (expandedModele.get(i) != Integer.MAX_VALUE)
+                cumul += (long) i * expandedModele.get(i);
         }
         return cumul;
+    }
+
+    public void printExpanded() {
+        for (Integer value: expandedModele) {
+            if (value==Integer.MAX_VALUE)
+                System.out.print("#,");
+            else
+                System.out.print(value + ",");
+        }
+        System.out.println();
     }
 }
