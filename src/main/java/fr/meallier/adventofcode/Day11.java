@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Day11 {
-    private List<Long> ele;
+    private HugeList ele;
 
     private Day11() {}
 
@@ -15,7 +15,7 @@ public class Day11 {
         Day11 day = new Day11();
         String[] fields = lines[0].split(" ");
 
-        day.ele = new ArrayList<>();
+        day.ele = new HugeList();
         for (String field: fields) {
             day.ele.add(Long.parseLong(field));
         }
@@ -37,11 +37,8 @@ public class Day11 {
     }
 
     public void blink() {
-        blink(ele);
-    }
-    public void blink(List<Long> ele) {
-        int size = ele.size();
-        for (int i = 0; i < size; i++) {
+        long size = ele.size();
+        for (long i = 0; i < size; i++) {
             long value = ele.get(i);
 
             if (value == 0L)
@@ -61,9 +58,48 @@ public class Day11 {
     }
 
     public void printEle() {
-        for (Long value: ele) {
-            System.out.print(value + " ");
+        for (long i = 0; i < ele.size(); i++) {
+            System.out.print(ele.get(i) + " ");
         }
         System.out.println();
+    }
+}
+
+class HugeList {
+    private final static int SPAN = 500_000_000;
+    private final List<List<Long>> storage;
+    private long currentSize;
+
+    public HugeList() {
+        storage = new ArrayList<>();
+        currentSize = 0;
+    }
+
+    public void add(long value) {
+        set(currentSize++,value);
+    }
+
+    public void set(long index, long value) {
+        int spanNumber = (int)index / SPAN;
+        int subIndex = (int)index % SPAN;
+        if (storage.size() <= spanNumber) {
+            storage.add(new ArrayList<>());
+        }
+
+        if (storage.get(spanNumber).size() <= subIndex)
+            storage.get(spanNumber).add(value);
+        else
+            storage.get(spanNumber).set(subIndex,value);
+    }
+
+    public long get(long index) {
+        int spanNumber = (int)index / SPAN;
+        int subIndex = (int)index % SPAN;
+
+        return storage.get(spanNumber).get(subIndex);
+    }
+
+    public long size() {
+        return currentSize;
     }
 }

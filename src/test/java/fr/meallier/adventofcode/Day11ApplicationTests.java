@@ -10,7 +10,8 @@ class Day11ApplicationTests {
     @Test
     void test_File() {
         try {
-            Day11 day = Day11.buildFromFile("/home/eric/day11.txt");
+            //Day11 day = Day11.buildFromFile("/home/eric/day11.txt");
+            Day11 day = Day11.buildFromFile(Objects.requireNonNull(Day11ApplicationTests.class.getResource("/day11.big.txt")).toURI());
 
             for (int i = 0; i < 25; i++) {
                 if (i%10 == 0)
