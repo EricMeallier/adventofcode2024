@@ -18,7 +18,7 @@ class Day11ApplicationTests {
                     System.out.print('|');
                 else
                     System.out.print('.');
-                day.blink();
+                day.blink(i);
             }
 
             Assertions.assertEquals(207683,day.length());
@@ -28,8 +28,7 @@ class Day11ApplicationTests {
                     System.out.print('|');
                 else
                     System.out.print('.');
-                System.gc();
-                day.blink();
+                day.blink(i);
             }
             System.out.println();
             Assertions.assertEquals(108525756,day.length()); // pour 40 blinks
@@ -45,7 +44,7 @@ class Day11ApplicationTests {
             Day11 day = Day11.buildFromFile(Objects.requireNonNull(Day11ApplicationTests.class.getResource("/day11.txt")).toURI());
 
             for (int i = 0; i < 25; i++) {
-                day.blink();
+                day.blink(i);
             }
 
             Assertions.assertEquals(55312,day.length());

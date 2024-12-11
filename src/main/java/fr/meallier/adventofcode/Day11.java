@@ -36,24 +36,31 @@ public class Day11 {
         return ele.size();
     }
 
-    public void blink() {
+    public void blink(int count) {
         long size = ele.size();
-        for (long i = 0; i < size; i++) {
-            long value = ele.get(i);
 
-            if (value == 0L)
-                ele.set(i,1L);
-            else {
-                int digitCount = (int)Math.log10(value)+1;
-                if (digitCount % 2 == 0) {
-                    int exp=digitCount / 2;
-                    long rate = (long)Math.pow(10,exp);
-                    ele.set(i,value / rate);
-                    ele.add(value % rate);
-                } else {
-                    ele.set(i,value * 2024);
+        try {
+            System.out.println("Blink(" + count + "):" + size + "/" + ele.storage.size());
+            for (long i = 0; i < size; i++) {
+                long value = ele.get(i);
+
+                if (value == 0L)
+                    ele.set(i, 1L);
+                else {
+                    int digitCount = (int) Math.log10(value) + 1;
+                    if (digitCount % 2 == 0) {
+                        int exp = digitCount / 2;
+                        long rate = (long) Math.pow(10, exp);
+                        ele.set(i, value / rate);
+                        ele.add(value % rate);
+                    } else {
+                        ele.set(i, value * 2024);
+                    }
                 }
             }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Size: " + size + ": " + e.getMessage());
+            throw e;
         }
     }
 
@@ -66,8 +73,8 @@ public class Day11 {
 }
 
 class HugeList {
-    private final static int SPAN = 500_000_000;
-    private final List<List<Long>> storage;
+    private final static int SPAN = 100_000;
+    public final List<List<Long>> storage;
     private long currentSize;
 
     public HugeList() {
@@ -82,21 +89,33 @@ class HugeList {
     public void set(long index, long value) {
         int spanNumber = (int)index / SPAN;
         int subIndex = (int)index % SPAN;
-        if (storage.size() <= spanNumber) {
-            storage.add(new ArrayList<>());
-        }
 
-        if (storage.get(spanNumber).size() <= subIndex)
-            storage.get(spanNumber).add(value);
-        else
-            storage.get(spanNumber).set(subIndex,value);
+        try {
+            if (storage.size() <= spanNumber) {
+                storage.add(new ArrayList<>());
+            }
+
+            if (storage.get(spanNumber).size() <= subIndex)
+                storage.get(spanNumber).add(value);
+            else
+                storage.get(spanNumber).set(subIndex,value);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Set: " + index + ", " + value + ": " + e.getMessage());
+            System.out.println("span: " + spanNumber + ", subIndex: " + subIndex);
+            throw e;
+        }
     }
 
     public long get(long index) {
         int spanNumber = (int)index / SPAN;
         int subIndex = (int)index % SPAN;
 
-        return storage.get(spanNumber).get(subIndex);
+        try {
+            return storage.get(spanNumber).get(subIndex);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Set: " + index + ": " + e.getMessage());
+            throw e;
+        }
     }
 
     public long size() {
