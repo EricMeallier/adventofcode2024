@@ -40,7 +40,7 @@ public class Day11 {
         long size = ele.size();
 
         try {
-            System.out.println("Blink(" + count + "):" + size + "/" + ele.storage.size());
+            // System.out.println("Blink(" + count + "):" + size + "/" + ele.storage.size());
             for (long i = 0; i < size; i++) {
                 long value = ele.get(i);
 

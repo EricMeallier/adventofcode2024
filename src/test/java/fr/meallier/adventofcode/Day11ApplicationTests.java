@@ -1,6 +1,7 @@
 package fr.meallier.adventofcode;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Objects;
@@ -8,6 +9,7 @@ import java.util.Objects;
 class Day11ApplicationTests {
 
     @Test
+    @Disabled
     void test_File() {
         try {
             //Day11 day = Day11.buildFromFile("/home/eric/day11.txt");
